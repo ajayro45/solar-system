@@ -14,6 +14,15 @@ env:
 jobs:
     Unit-Testing:
         name: Unit Testing
+        services:
+          mongo-db:
+            image: siddharth67/mongo-db:non-prod
+            ports:
+              - 27017:27017
+        env:
+         MONGO_URI_NP: 'mongodb//localhost:27017/superData'
+         MONGO_NP_USERNAME: ${{ vars.MONGO_NP_USERNAME }}
+         MONGO_NP_PASSWORD: ${{ secrets.MONGO_NP_PASSWORD}}       
         runs-on: ubuntu-latest
         steps:
             - name: Checkout Repo
