@@ -28,9 +28,11 @@ jobs:
               run: npm install
               
             - name: Unit Testing
+              id: nodejs-unittesting-step
               run: npm test 
 
             - name: Storing the Test Result using Artificat
+              if: steps.nodejs-unittesting-step.outcome == 'failure' || steps.nodejs-unittesting-step.outcome == 'sucsess'
               uses: actions/upload-artifact@v4
               with:
                 name: Mocha-Test-Result
