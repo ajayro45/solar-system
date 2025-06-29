@@ -76,6 +76,7 @@ jobs:
                 retention-days: 5
     docker:
         name: Containerize the Application
+        needs: [Unit-Testing, code-coverage]
         runs-on: ubuntu-latest
         steps:
           - name: Checkout Repo
