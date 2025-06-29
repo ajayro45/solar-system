@@ -32,7 +32,7 @@ jobs:
               run: npm test 
 
             - name: Storing the Test Result using Artificat
-              if: failure() &&  (steps.nodejs-unittesting-step.outcome == 'failure' || steps.nodejs-unittesting-step.outcome == 'sucsess')
+              if: always()
               uses: actions/upload-artifact@v4
               with:
                 name: Mocha-Test-Result
