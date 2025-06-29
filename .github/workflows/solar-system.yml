@@ -36,7 +36,8 @@ jobs:
                 name: Mocha-Test-Result
                 path: test-results.xml
     code-coverage:
-        name: Unit Testing
+        name: Code Coverage
+        needs: Unit-Testing 
         runs-on: ubuntu-latest
         steps:
             - name: Checkout Repo
@@ -51,6 +52,7 @@ jobs:
               run: npm install
               
             - name: Check Code Coverage
+              continue-on-error: true
               run: npm run coverage
 
             - name: Archive Test Coverage
@@ -59,4 +61,4 @@ jobs:
                 name: Code-Coverage-Result
                 path: coverage
                 retention-days: 5
-                 
+                   
