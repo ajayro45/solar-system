@@ -155,6 +155,16 @@ jobs:
               uses: azure/setup-kubectl@v4
               with:
                 version: 'v1.31.8'
+            - uses: azure/login@v2
+              with:
+                 client-id: ${{ secrets.AZURE_CLIENT_ID }}
+                 tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+                 subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+            
+            - uses: azure/aks-set-context@v4
+              with:
+                 resource-group: ${{ vars.RG_NAME}}
+                 cluster-name: ${{vars.CLUSTER_NAME}}             
             - name: Fetch Kubernetes Cluster Details
               run: |
                  kubectl version --short
