@@ -55,15 +55,27 @@ jobs:
     code-coverage:
         name: Code Coverage
         needs: Unit-Testing 
+        container: 
+            image: node:18
+        services:
+          mongo-db:
+            image: siddharth67/mongo-db:non-prod
+            options: 
+                --name mango
+        env:
+         MONGO_URI_NP: 'mongodb://mango:27017/superData'
+         MONGO_NP_USERNAME: ${{ vars.MONGO_NP_USERNAME }}
+         MONGO_NP_PASSWORD: ${{ secrets.MONGO_NP_PASSWORD}}             
+            
         runs-on: ubuntu-latest
         steps:
             - name: Checkout Repo
               uses: actions/checkout@v4
 
-            - name: Setup Nodejs Version - 18
-              uses: actions/setup-node@v3
-              with:
-                node-version: '18'
+            # - name: Setup Nodejs Version - 18
+            #   uses: actions/setup-node@v3
+            #   with:
+            #     node-version: '18'
             - name: Cache NPM dependencies
               uses: actions/cache@v4
               with:
