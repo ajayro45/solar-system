@@ -146,7 +146,7 @@ jobs:
 
               export IP=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' solar-system-app)
               echo $IP
- 
+
               echo Testing Image URL using wget
               wget -q -O - 127.0.0.1:3000/live | grep live
 
@@ -217,7 +217,7 @@ jobs:
             - name: Set APP Ingress Host URL
               id: set-ingress-host-address
               run: |
-               echo "APP_INGRESS_HOST=$(kubectl -n ${{ vars.NAMESPACE}} get ing -o jsonpath="{.items[0].spec.tls[0].hosts[0]}")" >> "$GITHUB_OUTPUT"
+               echo "APP_INGRESS_HOST=$(kubectl get services -n ingress-nginx nginx-ingress-ingress-nginx-controller -o jsonpath="{.status.loadBalancer.ingress[0].ip}")" >> "$GITHUB_OUTPUT"
     integration-testing:
       name: Dev Integration Testing
       needs: dev-deploy
