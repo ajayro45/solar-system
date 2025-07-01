@@ -122,18 +122,19 @@ jobs:
             with:
               registry: ghcr.io
               username: ${{ github.repository_owner}}
-              password: ${{ secrets.GITHUB_TOKEN}}              
-
-          - name: Docker Build and push
+              password: ${{ secrets.GITHUB_TOKEN}} 
+          - name: Docker Build and push with cache
             uses: docker/build-push-action@v6
             with:
               context: .
-              push: True
+              push: true
               tags: |
-                ${{ vars.DOCKERHUB_USERNAME}}/solar-system:${{github.sha}}
-                ghcr.io/${{ github.repository_owner}}/solar-system:${{github.sha}}
-              platforms: linux/amd64,linux/arm64 
-
+                ${{ vars.DOCKERHUB_USERNAME }}/solar-system:${{ github.sha }}
+                ghcr.io/${{ github.repository_owner }}/solar-system:${{ github.sha }}
+              platforms: linux/amd64,linux/arm64
+              cache-from: type=gha
+              cache-to: type=gha,mode=max
+      
           - name: Docker Image Testing
             run: |
               docker images
