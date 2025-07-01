@@ -7,18 +7,19 @@ metadata:
   name: solar-system
   namespace: _{_NAMESPACE_}_
 spec:
+    ingressClassName: nginx
     rules:
-    - host: solar-system-_{_NAMESPACE_}_._{_DNS_}_
+    - host: solar-system-_{_NAMESPACE_}_
       http:
         paths:
         - backend:
             service:
               name: solar-system
               port:
-                number: 3000
+                number: 80
           path: /
           pathType: Prefix
     tls:
     - hosts:
-      - solar-system-_{_NAMESPACE_}_._{_DNS_}_
+      - solar-system-_{_NAMESPACE_}_
       secretName: ingress-local-tls
