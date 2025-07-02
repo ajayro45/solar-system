@@ -1,9 +1,6 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  annotations:
-    kubernetes.io/ingress.class: nginx
-    kubernetes.io/tls-acme: "true"
   name: solar-system
   namespace: _{_NAMESPACE_}_
 spec:
@@ -16,5 +13,5 @@ spec:
               name: solar-system
               port:
                 number: 80
-          path: /
+          path: /live
           pathType: Prefix
