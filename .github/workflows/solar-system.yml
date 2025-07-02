@@ -157,6 +157,7 @@ jobs:
           id-token: write
           contents: write
         needs: docker
+        if: contains(github.ref, 'feature/')
         environment:
           name: development
           url:  https://${{steps.set-ingress-host-address.outputs.APP_INGRESS_HOST}}
@@ -221,7 +222,7 @@ jobs:
             - name: Set APP Ingress Host URL
               id: set-ingress-host-address
               run: |
-               echo "solar-system-${{vars.NAMESPACE}}.${{ secrets.DNS}}" >> "$GITHUB_OUTPUT"
+               echo solar-system-${{vars.NAMESPACE}}.${{ vars.DNS}} >> "$GITHUB_OUTPUT"
     integration-testing:
       name: Dev Integration Testing
       needs: dev-deploy
@@ -239,7 +240,7 @@ jobs:
         permissions: 
           id-token: write
           contents: write
-        needs: dev-deploy
+        needs: [ dev-deploy, docker]
         environment: 
           name: Production
           url:  http://${{steps.set-ingress-host-address.outputs.APP_INGRESS_HOST}}
