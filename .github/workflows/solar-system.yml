@@ -157,8 +157,8 @@ jobs:
           id-token: write
           contents: write
         needs: docker
-        if: contains(gb.ref, 'feature/')
-        uses: ./.github/workflows/solar-system.yml
+        if: contains(github.ref, 'feature/')
+        uses: ./.github/workflows/reuse-deploy.yml
 
     integration-testing:
       name: Dev Integration Testing
