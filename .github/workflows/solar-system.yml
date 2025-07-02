@@ -222,7 +222,7 @@ jobs:
             - name: Set APP Ingress Host URL
               id: set-ingress-host-address
               run: |
-               echo solar-system-${{vars.NAMESPACE}}.${{ vars.DNS}} >> "$GITHUB_OUTPUT"
+               echo "APP_INGRESS_HOST=solar-system-${{vars.NAMESPACE}}.${{ vars.DNS}}"" >> "$GITHUB_OUTPUT"
     integration-testing:
       name: Dev Integration Testing
       needs: dev-deploy
