@@ -162,7 +162,7 @@ jobs:
         secrets: inherit
         with:
          environment: development
-         k8s-manifest-dir: kubernetes/development
+         k8s-manifest-dir: kubernetes/development/
 
     Dev-integration-testing:
       name: Dev Integration Testing
@@ -181,12 +181,12 @@ jobs:
         permissions: 
           id-token: write
           contents: write
-        needs: [ dev-deploy, docker]
+        needs: docker
         uses: ./.github/workflows/reuse-deploy.yml
         secrets: inherit
         with:
          environment: Production
-         k8s-manifest-dir: kubernetes/production
+         k8s-manifest-dir: kubernetes/production/
         
     prod_integration-testing:
       name: PROD Integration Testing
