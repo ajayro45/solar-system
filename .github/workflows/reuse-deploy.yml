@@ -12,6 +12,7 @@ on:
          description: Provide the environment name to Deploy
          required: true
          type: string
+        dns: 
       outputs:
         application-url:
           value: ${{ jobs.reuse-deploy.outputs.APP_INGRESS_HOST}}
@@ -82,4 +83,4 @@ jobs:
             - name: Set APP Ingress Host URL
               id: set-ingress-host-address
               run: |
-               echo "APP_INGRESS_HOST=solar-system-${{vars.NAMESPACE}}.${{ vars.DNS}}" >> "$GITHUB_OUTPUT"
+               echo "APP_INGRESS_HOST=solar-system-development.${{ vars.DNS}}" >> "$GITHUB_OUTPUT"
