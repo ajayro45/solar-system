@@ -160,8 +160,9 @@ jobs:
         if: contains(github.ref, 'feature/')
         uses: ./.github/workflows/reuse-deploy.yml
         secrets: inherit
-        environment: development
-        k8s-manifest-dir: kubernetes/development
+        with:
+         environment: development
+         k8s-manifest-dir: kubernetes/development
 
     Dev-integration-testing:
       name: Dev Integration Testing
@@ -183,8 +184,9 @@ jobs:
         needs: [ dev-deploy, docker]
         uses: ./.github/workflows/reuse-deploy.yml
         secrets: inherit
-        environment: Production
-        k8s-manifest-dir: kubernetes/production
+        with:
+         environment: Production
+         k8s-manifest-dir: kubernetes/production
         
     prod_integration-testing:
       name: PROD Integration Testing
