@@ -56,7 +56,6 @@ jobs:
                 path: test-results.xml
     code-coverage:
         name: Code Coverage
-        needs: Unit-Testing 
         container: 
             image: node:18
         services:
@@ -97,6 +96,36 @@ jobs:
                 name: Code-Coverage-Result
                 path: coverage
                 retention-days: 5
+    Reports-Azure-Blob:
+     needs: [code-coverage, Unit-Testing]
+     name: Uploading reports to Azure Blob storage
+     runs-on: ubuntu-latest
+     continue-on-error: true
+     steps:
+      - name: Downloading Unit Test Artificat
+        uses: actions/download-artifact@v4
+        with:
+         name: Mocha-Test-Result
+
+      - name: Download Code coverage result 
+        uses: actions/download-artifact@v4
+        with:
+         name: Code-Coverage-Result
+
+      - name: Merging the test results
+        run: |
+         ls -lrt
+         mkdir reports-${{ github.sha }}
+         mv cobertura-coverage.xml reports-${{ github.sha }}/
+         mv test-results.xml reports-${{ github.sha }}/
+         ls -lrt reports-${{ github.sha }}/
+
+      - name: Upload To Azure Blob Storage
+        uses: bacongobbler/azure-blob-storage-upload@main
+        with:
+          source_dir: reports-${{ github.sha }}
+          container_name: solar-system-reports
+          connection_string: ${{ secrets.ConnectionString }}                
     docker:
         name: Containerize the Application
         needs: [Unit-Testing, code-coverage]
@@ -200,32 +229,7 @@ jobs:
            echo  $URL
            echo "---------------------------------------" 
            curl https://$URL/live -s -k | jq -r .status | grep -i live
-    Reports-Azure-Blob:
-     needs: [code-coverage, Unit-Testing]
-     name: Uploading reports to Azure Blob storage
-     runs-on: ubuntu-latest
-     continue-on-error: true
-     steps:
-      - name: Downloading Unit Test Artificat
-        uses: actions/download-artifact@v4
-        with:
-         name: Mocha-Test-Result
 
-      - name: Download Code coverage result 
-        uses: actions/download-artifact@v4
-        with:
-         name: Code-Coverage-Result
-
-      - name: Merging the test results
-        run: |
-         ls -lrt
-         mkdir reports-${{ github.sha }}
-         mv cobertura-coverage.xml reports-${{ github.sha }}/
-         mv test-results.xml reports-${{ github.sha }}/
-         ls -lrt reports-${{ github.sha }}/
-
-      - name: Upload to Azure Blob
-        run: echo "uploading...."
 
 
 
