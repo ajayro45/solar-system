@@ -12,6 +12,9 @@ on:
          description: Provide the environment name to Deploy
          required: true
          type: string
+      outputs:
+        application-url:
+          value: ${{ jobs.reuse-deploy.outputs.APP_INGRESS_HOST}}
 
 jobs:
     reuse-deploy:
