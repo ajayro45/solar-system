@@ -34,15 +34,10 @@ jobs:
               uses: actions/setup-node@v3
               with:
                 node-version: '18'
-            - name: Cache NPM dependencies
-              uses: actions/cache@v4
+            - name: composite action - Cache & Install NPM Packages
+              uses: ./.github/workflows/custom-action/npm-action/action.yml
               with:
-                path: node_modules
-                key: ${{ runner.os }}-node-modules-${{ hashFiles('package-lock.json') }}
-    
-
-            - name: Install Dependecies
-              run: npm install
+                path-to-cache: node_modules
               
             - name: Unit Testing
               id: nodejs-unittesting-step
@@ -77,14 +72,10 @@ jobs:
             #    uses: actions/setup-node@v3
             #   with:
             #     node-version: '18'
-            - name: Cache NPM dependencies
-              uses: actions/cache@v4
+            - name: composite action - Cache & Install NPM Packages
+              uses: ./.github/workflows/custom-action/npm-action/action.yml
               with:
-                path: node_modules
-                key: ${{ runner.os }}-node-modules-${{ hashFiles('package-lock.json') }}
-
-            - name: Install Dependecies
-              run: npm install
+                path-to-cache: node_modules
               
             - name: Check Code Coverage
               continue-on-error: true
@@ -125,6 +116,7 @@ jobs:
         with:
           source_dir: reports-${{ github.sha }}
           container_name: solar-system-reports
+          destination_folder: reports-${{ github.sha }}
           connection_string: ${{ secrets.ConnectionString }}                
     docker:
         name: Containerize the Application
