@@ -35,7 +35,7 @@ jobs:
               with:
                 node-version: '18'
             - name: composite action - Cache & Install NPM Packages
-              uses: ./.github/workflows/custom-action/npm-action/action.yml
+              uses: ./.github/workflows/custom-action/npm-action
               with:
                 path-to-cache: node_modules
               
@@ -73,7 +73,7 @@ jobs:
             #   with:
             #     node-version: '18'
             - name: composite action - Cache & Install NPM Packages
-              uses: ./.github/workflows/custom-action/npm-action/action.yml
+              uses: ./.github/workflows/custom-action/npm-action
               with:
                 path-to-cache: node_modules
               
