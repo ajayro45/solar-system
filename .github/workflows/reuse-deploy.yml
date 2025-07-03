@@ -10,7 +10,6 @@ on:
          type: string
         environment: 
          description: Provide the environment name to Deploy
-         default: development
          required: true
          type: string
 
@@ -72,11 +71,11 @@ jobs:
                --from-literal=MONGO_PASSWORD=${{ secrets.MONGO_PASSWORD}} \
                --save-config \
                --dry-run=client \
-               -o yaml | kubectl apply -f ${{ inputs.k8s-manifest-dir}}
+               -o yaml | kubectl apply -f -
 
-            - name: Deploy to DEV NAMSPACE oF CLUSTER
+            - name: Deploy to ${{ vars.NAMESPACE}} oF CLUSTER
               run: | 
-               kubectl apply -f kubernetes/development
+               kubectl apply -f ${{ inputs.k8s-manifest-dir}}
             - name: Set APP Ingress Host URL
               id: set-ingress-host-address
               run: |
